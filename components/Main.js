@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {globalStyle} from "../style/style";
 import {AntDesign} from '@expo/vector-icons';
+import Form from "./Form";
 
 const Main = ({navigation}) => {
     const openPage = (item) => {
@@ -39,10 +40,21 @@ const Main = ({navigation}) => {
     ])
 
     const [modalOpen, setMoadlOpen] = useState(false)
+
+    const addArtical = (arctical) => {
+        setNews((prevList) => {
+            arctical.id = Math.random().toString();
+            return [
+                arctical,
+                ...prevList
+            ]
+        })
+        setMoadlOpen(false)
+    }
     return (
         <View style={globalStyle.main}>
             <AntDesign
-                onPress={()=> setMoadlOpen(true)}
+                onPress={() => setMoadlOpen(true)}
                 name="pluscircle"
                 size={34} color="black"
                 style={styles.title}
@@ -53,11 +65,12 @@ const Main = ({navigation}) => {
                     size={24}
                     color="red"
                     style={styles.iconModal}
-                    onPress={()=> setMoadlOpen(false)}
+                    onPress={() => setMoadlOpen(false)}
                 />
                 <View>
                     <Text style={globalStyle.title}>Додати статью</Text>
                 </View>
+                <Form addArtical={addArtical}/>
             </Modal>
             <Text style={[globalStyle.title, styles.header]}>Головная сторінка</Text>
             <FlatList
